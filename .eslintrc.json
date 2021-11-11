@@ -4,5 +4,8 @@
   "rules": {
     "import/no-unresolved": "off"
   },
-  "ignorePatterns": ["out", "dist", "**/*.d.ts"]
+  "ignorePatterns": ["out", "dist", "**/*.d.ts"],
+  "globals": {
+    "NodeJS": true
+  }
 }
