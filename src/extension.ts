@@ -58,11 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
     activeEditor.setDecorations(jumpPointDecorator.decorator, jumpPoints)
   }
   function triggerUpdateDecorations() {
-    if (timeout) {
-      clearTimeout(timeout)
-      timeout = undefined
-    }
-    timeout = setTimeout(updateDecorations, 500)
+    updateDecorations()
   }
 
   vscode.window.onDidChangeActiveTextEditor(
