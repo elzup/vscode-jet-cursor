@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     if (jumpPoints.length > 0) {
-      activeEditor.setDecorations(jumpPointDecorator.decorator, jumpPoints)
+      activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
     }
   }
   function triggerUpdateDecorations() {
