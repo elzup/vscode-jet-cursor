@@ -20,17 +20,7 @@
         "title": "Hello World"
       }
     ],
-    "colors": [
-      {
-        "id": "myextension.largeNumberBackground",
-        "description": "Background decoration color for large numbers",
-        "defaults": {
-          "dark": "#FF000055",
-          "light": "#FF000055",
-          "highContrast": "#FF000055"
-        }
-      }
-    ]
+    "colors": []
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
@@ -45,8 +35,6 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "16.11.7",
     "@types/vscode": "^1.62.0",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
     "@vscode/test-electron": "^1.6.2",
     "eslint": "^8.2.0",
     "eslint-config-nzap": "^5.0.0",

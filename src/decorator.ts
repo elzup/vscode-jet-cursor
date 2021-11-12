@@ -9,6 +9,7 @@ export const jumpPointDecorator = vscode.window.createTextEditorDecorationType({
   dark: {
     borderColor: 'white',
   },
+  // borderColor: { id: 'editorCursor.background' },
   // not working
   // borderColor: new vscode.ThemeColor('editorCursor.background')
 })
