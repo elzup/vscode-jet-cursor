@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "maai" extension will be documented in this file.
+All notable changes to the "jetCursor" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 

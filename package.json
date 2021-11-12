@@ -1,6 +1,6 @@
 {
-  "name": "maai",
-  "displayName": "maai",
+  "name": "jetCursor",
+  "displayName": "jetCursor",
   "description": "Support relative cursor move by marker",
   "version": "0.0.1",
   "engines": {
@@ -16,7 +16,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "maai.toggle",
+        "command": "jetCursor.toggle",
         "title": "Hello World"
       }
     ],
