@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { jumpPointDecorator } from './decorator'
 
-const cursorRange = (line: number, char: number) =>
+const colShadowRange = (line: number, char: number) =>
   new vscode.Range(line, char, line, char + 1)
 
 export function activate(context: vscode.ExtensionContext) {
@@ -30,21 +30,16 @@ export function activate(context: vscode.ExtensionContext) {
     if (!activeEditor) return
 
     const { character, line } = activeEditor.selection.anchor
-    const jumpPoints: vscode.DecorationOptions[] = []
-
     const firstLine = 0
     const lastLine = activeEditor.document.lineCount - 1
+    const notCurrentLine = (v: number) => v !== line
+    const upLine = Math.max(firstLine, line - LINE_DIFF)
+    const dwLine = Math.min(lastLine, line + LINE_DIFF)
+    const jetLines = [upLine, dwLine]
 
-    if (line > firstLine) {
-      const upLine = Math.max(line - LINE_DIFF, firstLine)
-
-      jumpPoints.push({ range: cursorRange(upLine, character) })
-    }
-    if (line < lastLine) {
-      const dwLine = Math.min(line + LINE_DIFF, lastLine)
-
-      jumpPoints.push({ range: cursorRange(dwLine, character) })
-    }
+    const jumpPoints: vscode.DecorationOptions[] = jetLines
+      .filter(notCurrentLine)
+      .map((line) => ({ range: colShadowRange(line, character) }))
 
     if (jumpPoints.length > 0) {
       activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
@@ -55,4 +50,6 @@ export function activate(context: vscode.ExtensionContext) {
   }
 }
 
-export function deactivate() {}
+export function deactivate() {
+  jumpPointDecorator.dispose()
+}
