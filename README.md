@@ -1,4 +1,4 @@
-# Jet Cursor
+# Maai Cursor
 
 Visualize relative position from cursor position.  
 Hilight realtive N line up and N line down.  
@@ -26,12 +26,12 @@ This extension contributes the following settings:
 
 **WIP**
 
-- `jetCursor.distance`: Distance of marker.
-- `jetCursor.mode`: Hilight pattern `point` or `line`.
+- `maaiCursor.distance`: Distance of marker.
+- `maaiCursor.mode`: Hilight pattern `point` or `line`.
 
 ```
-  "jetCursor.distance": 5
-  "jetCursor.mode": "point"
+  "maaiCursor.distance": 5
+  "maaiCursor.mode": "point"
 ```
 
 <!-- ## Known Issues
@@ -42,7 +42,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 **WIP**
 
-- `extension.jetCursor.toggle`: Toggle jetCursor on/off
+- `extension.maaiCursor.toggle`: Toggle maaiCursor on/off
 
 ## Release Notes
 
