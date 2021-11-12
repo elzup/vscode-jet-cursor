@@ -2,8 +2,8 @@
 
 Visualize relative position from cursor position.  
 Hilight realtive N line up and N line down.  
-Enhancement vertical moving of cursor.  
-Enhancement command of vim's `{N}j` and `{N}k`.
+Enhance vertical moving of cursor.  
+Enhance command of vim's `{N}j` and `{N}k`.
 
 ![](https://raw.githubusercontent.com/elzup/vscode-jet-cursor/main/images/vscode-jet-cursor.gif)
 
