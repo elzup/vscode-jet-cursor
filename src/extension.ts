@@ -1,65 +1,11 @@
 import * as vscode from 'vscode'
+import { jumpPointDecorator } from './decorator'
+
+const cursorRange = (line: number, char: number) =>
+  new vscode.Range(line, char, line, char + 1)
 
 export function activate(context: vscode.ExtensionContext) {
   let activeEditor = vscode.window.activeTextEditor
-
-  const jumpPointDecorator = {
-    decorator: vscode.window.createTextEditorDecorationType({
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      overviewRulerColor: 'blue',
-      overviewRulerLane: vscode.OverviewRulerLane.Right,
-      light: {
-        // this color will be used in light color themes
-        borderColor: 'darkblue',
-      },
-      dark: {
-        // this color will be used in dark color themes
-        borderColor: 'lightblue',
-      },
-    }),
-  }
-  let timeout: NodeJS.Timer | undefined = undefined
-
-  vscode.window.onDidChangeTextEditorSelection(
-    triggerUpdateDecorations,
-    null,
-    context.subscriptions
-  )
-
-  function updateDecorations() {
-    if (!activeEditor) return
-
-    const anchor = activeEditor.selection.anchor
-    const upLine = anchor.line - 1
-    const dwLine = anchor.line + 1
-
-    const jumpPoints: vscode.DecorationOptions[] = []
-
-    jumpPoints.push({
-      range: new vscode.Range(
-        upLine,
-        anchor.character,
-        upLine,
-        anchor.character + 1
-      ),
-      hoverMessage: 'jump pos up',
-    })
-    jumpPoints.push({
-      range: new vscode.Range(
-        dwLine,
-        anchor.character,
-        dwLine,
-        anchor.character + 1
-      ),
-      hoverMessage: 'jump pos down',
-    })
-
-    activeEditor.setDecorations(jumpPointDecorator.decorator, jumpPoints)
-  }
-  function triggerUpdateDecorations() {
-    updateDecorations()
-  }
 
   vscode.window.onDidChangeActiveTextEditor(
     (editor) => {
@@ -71,6 +17,42 @@ export function activate(context: vscode.ExtensionContext) {
     null,
     context.subscriptions
   )
+
+  vscode.window.onDidChangeTextEditorSelection(
+    triggerUpdateDecorations,
+    null,
+    context.subscriptions
+  )
+
+  const LINE_DIFF = 5
+
+  function updateDecorations() {
+    if (!activeEditor) return
+
+    const { character, line } = activeEditor.selection.anchor
+    const jumpPoints: vscode.DecorationOptions[] = []
+
+    const firstLine = 0
+    const lastLine = activeEditor.document.lineCount - 1
+
+    if (line > firstLine) {
+      const upLine = Math.max(line - LINE_DIFF, firstLine)
+
+      jumpPoints.push({ range: cursorRange(upLine, character) })
+    }
+    if (line < lastLine) {
+      const dwLine = Math.min(line + LINE_DIFF, lastLine)
+
+      jumpPoints.push({ range: cursorRange(dwLine, character) })
+    }
+
+    if (jumpPoints.length > 0) {
+      activeEditor.setDecorations(jumpPointDecorator.decorator, jumpPoints)
+    }
+  }
+  function triggerUpdateDecorations() {
+    updateDecorations()
+  }
 }
 
 export function deactivate() {}
