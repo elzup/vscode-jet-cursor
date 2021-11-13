@@ -3,6 +3,8 @@ import { jumpPointDecorator } from './decorator'
 
 const colShadowRange = (line: number, char: number) =>
   new vscode.Range(line, char, line, char + 1)
+const colLineShadowRange = (line: number) =>
+  new vscode.Range(line, 0, line, 100)
 
 function setupCommands(_context: vscode.ExtensionContext) {
   //
@@ -39,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
   function updateDecorations() {
     if (!activeEditor) return
     const DISTNACE = getDistanceConfig()
-    const _MODE = getModeConfig()
+    const MODE = getModeConfig()
 
     const { character, line } = activeEditor.selection.anchor
     const firstLine = 0
@@ -51,7 +53,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     const jumpPoints: vscode.DecorationOptions[] = jetLines
       .filter(notCurrentLine)
-      .map((line) => ({ range: colShadowRange(line, character) }))
+      .map((line) => ({
+        range:
+          MODE === 'point'
+            ? colShadowRange(line, character)
+            : MODE === 'line'
+            ? colLineShadowRange(line)
+            : colShadowRange(line, character),
+      }))
 
     if (jumpPoints.length > 0) {
       activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
