@@ -8,6 +8,12 @@ function setupCommands(_context: vscode.ExtensionContext) {
   //
 }
 
+type MaaiMode = 'point' | 'line' | 'para'
+
+const getConfig = () => vscode.workspace.getConfiguration('maaiCursor')
+const getDistanceConfig = () => getConfig().get<number>('distance') || 5
+const getModeConfig = () => getConfig().get<MaaiMode>('mode') || 'point'
+
 export function activate(context: vscode.ExtensionContext) {
   let activeEditor = vscode.window.activeTextEditor
 
@@ -32,10 +38,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   function updateDecorations() {
     if (!activeEditor) return
-
-    const DISTNACE =
-      vscode.workspace.getConfiguration('maaiCursor').get<number>('distance') ||
-      5
+    const DISTNACE = getDistanceConfig()
+    const _MODE = getModeConfig()
 
     const { character, line } = activeEditor.selection.anchor
     const firstLine = 0
