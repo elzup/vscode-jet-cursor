@@ -22,10 +22,34 @@
     "commands": [
       {
         "command": "maaiCursor.toggle",
-        "title": "Hello World"
+        "title": "Maai Cursor: Toggle on/off"
       }
     ],
-    "colors": []
+    "configuration": {
+      "title": "maaiCursor",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable/disable Maai Cursor",
+          "default": true
+        },
+        "distance": {
+          "type": "number",
+          "description": "Number of lines of jump",
+          "default": 5
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "point",
+            "line",
+            "para"
+          ],
+          "description": "Hilight mode",
+          "default": "point"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",

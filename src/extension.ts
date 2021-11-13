@@ -4,8 +4,21 @@ import { jumpPointDecorator } from './decorator'
 const colShadowRange = (line: number, char: number) =>
   new vscode.Range(line, char, line, char + 1)
 
+function setupCommands(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.commands.registerCommand('maaiCursor.toggle', () => {
+      const setting = vscode.workspace.getConfiguration('maaiCursor')
+      const enabled = setting.get('enabled')
+
+      setting.update('enabled', !enabled)
+    })
+  )
+}
+
 export function activate(context: vscode.ExtensionContext) {
   let activeEditor = vscode.window.activeTextEditor
+
+  setupCommands(context)
 
   vscode.window.onDidChangeActiveTextEditor(
     (editor) => {
