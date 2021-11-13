@@ -26,19 +26,16 @@
       }
     ],
     "configuration": {
-      "title": "maaiCursor",
+      "title": "Maai Cursor",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enable/disable Maai Cursor",
-          "default": true
-        },
-        "distance": {
+        "maaiCursor.distance": {
           "type": "number",
           "description": "Number of lines of jump",
+          "minimum": 1,
+          "maximum": 100,
           "default": 5
         },
-        "mode": {
+        "maaiCursor.mode": {
           "type": "string",
           "enum": [
             "point",
