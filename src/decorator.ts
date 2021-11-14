@@ -2,10 +2,10 @@ import * as vscode from 'vscode'
 
 export const jumpPointDecorator = vscode.window.createTextEditorDecorationType({
   border: '1px solid black',
-  backgroundColor: '#ffffff30',
+  backgroundColor: '#88888830',
   dark: {
     borderColor: 'white',
-    backgroundColor: '#00000030',
+    backgroundColor: '#88888830',
   },
   // borderColor: { id: 'editorCursor.background' },
   // not working
@@ -13,8 +13,8 @@ export const jumpPointDecorator = vscode.window.createTextEditorDecorationType({
 })
 
 export const jumpLineDecorator = vscode.window.createTextEditorDecorationType({
-  backgroundColor: '#ffffff20',
+  backgroundColor: '#88888820',
   dark: {
-    backgroundColor: '#00000020',
+    backgroundColor: '#88888820',
   },
 })

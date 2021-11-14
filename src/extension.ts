@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { jumpPointDecorator } from './decorator'
+import { jumpLineDecorator, jumpPointDecorator } from './decorator'
 
 const colShadowRange = (line: number, char: number) =>
   new vscode.Range(line, char, line, char + 1)
@@ -49,21 +49,16 @@ export function activate(context: vscode.ExtensionContext) {
     const notCurrentLine = (v: number) => v !== line
     const upLine = Math.max(firstLine, line - DISTNACE)
     const dwLine = Math.min(lastLine, line + DISTNACE)
-    const jetLines = [upLine, dwLine]
+    const jetLines = [upLine, dwLine].filter(notCurrentLine)
 
-    const jumpPoints: vscode.DecorationOptions[] = jetLines
-      .filter(notCurrentLine)
-      .map((line) => ({
-        range:
-          MODE === 'point'
-            ? colShadowRange(line, character)
-            : MODE === 'line'
-            ? colLineShadowRange(line)
-            : colShadowRange(line, character),
-      }))
+    const jumpPoints = jetLines.map((line) => colShadowRange(line, character))
+    const jumpLines = jetLines.map(colLineShadowRange)
 
-    if (jumpPoints.length > 0) {
-      activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
+    activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
+    if (MODE === 'point') {
+    } else if (MODE === 'line') {
+      activeEditor.setDecorations(jumpLineDecorator, jumpLines)
+    } else if (MODE === 'para') {
     }
   }
   function triggerUpdateDecorations() {
