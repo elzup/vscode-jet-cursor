@@ -57,21 +57,21 @@ export function activate(context: vscode.ExtensionContext) {
     const notCurrentLine = (v: number) => v !== line
     const upLine = Math.max(firstLine, line - DISTNACE)
     const dwLine = Math.min(lastLine, line + DISTNACE)
+    const nextLines = [upLine, dwLine].filter(notCurrentLine)
+
     const allLines = calcJetLines(line, lastLine, DISTNACE)
-    const nextLines = [upLine, dwLine]
-    const jetLines = (MODE === 'para' ? allLines : nextLines).filter(
-      notCurrentLine
-    )
 
-    const jumpPoints = jetLines.map((line) => colShadowRange(line, character))
-    const jumpLines = jetLines.map(colLineShadowRange)
+    const nextPoints = nextLines.map((line) => colShadowRange(line, character))
 
+    activeEditor.setDecorations(jumpPointDecorator, nextPoints)
     if (MODE === 'point') {
-      activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
     } else if (MODE === 'line') {
-      activeEditor.setDecorations(jumpPointDecorator, jumpPoints)
+      const jumpLines = nextLines.map(colLineShadowRange)
+
       activeEditor.setDecorations(jumpLineDecorator, jumpLines)
     } else if (MODE === 'para') {
+      const jumpLines = allLines.map(colLineShadowRange)
+
       activeEditor.setDecorations(jumpLineDecorator, jumpLines)
     }
   }
