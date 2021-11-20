@@ -2,7 +2,8 @@
   "name": "maai-cursor",
   "displayName": "Maai Cursor",
   "description": "Enhance vertical moving of cursor.",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "icon": "images/icon.png",
   "repository": {
     "url": "https://github.com/elzup/vscode-maai-cursor.git",
     "type": "git"
