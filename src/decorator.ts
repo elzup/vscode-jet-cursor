@@ -13,3 +13,20 @@ export const jumpPointDecorator = vscode.window.createTextEditorDecorationType({
 export const jumpLineDecorator = vscode.window.createTextEditorDecorationType({
   backgroundColor: '#44444440',
 })
+
+export const topBorderDeco = vscode.window.createTextEditorDecorationType({
+  isWholeLine: true,
+  borderStyle: 'solid none none none',
+  borderColor: '#00000020',
+  dark: {
+    borderColor: '#ffffff20',
+  },
+})
+export const btmBorderDeco = vscode.window.createTextEditorDecorationType({
+  isWholeLine: true,
+  borderStyle: 'none none solid none',
+  borderColor: '#00000020',
+  dark: {
+    borderColor: '#ffffff20',
+  },
+})

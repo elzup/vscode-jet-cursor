@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { jumpLineDecorator, jumpPointDecorator } from './decorator'
+import { btmBorderDeco, jumpPointDecorator, topBorderDeco } from './decorator'
 
 const colShadowRange = (line: number, char: number) =>
   new vscode.Range(line, char, line, char + 1)
@@ -64,15 +64,23 @@ export function activate(context: vscode.ExtensionContext) {
     const nextPoints = nextLines.map((line) => colShadowRange(line, character))
 
     activeEditor.setDecorations(jumpPointDecorator, nextPoints)
+    const isOutside = false
+    const [upDeco, dwDeco] = isOutside
+      ? [topBorderDeco, btmBorderDeco]
+      : [btmBorderDeco, topBorderDeco]
+
     if (MODE === 'point') {
-    } else if (MODE === 'line') {
-      const jumpLines = nextLines.map(colLineShadowRange)
+    } else {
+      const lines = { line: nextLines, para: allLines }[MODE]
 
-      activeEditor.setDecorations(jumpLineDecorator, jumpLines)
-    } else if (MODE === 'para') {
-      const jumpLines = allLines.map(colLineShadowRange)
-
-      activeEditor.setDecorations(jumpLineDecorator, jumpLines)
+      activeEditor.setDecorations(
+        upDeco,
+        lines.filter((l) => l < line).map(colLineShadowRange)
+      )
+      activeEditor.setDecorations(
+        dwDeco,
+        lines.filter((l) => l > line).map(colLineShadowRange)
+      )
     }
   }
   function triggerUpdateDecorations() {
