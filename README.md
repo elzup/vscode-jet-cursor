@@ -5,7 +5,7 @@ Hilight realtive N line up and N line down.
 Enhance vertical moving of cursor.  
 Enhance command of vim's `{N}j` and `{N}k`.
 
-![](https://raw.githubusercontent.com/elzup/vscode-jet-cursor/main/images/vscode-jet-cursor.gif)
+<div><video controls src="https://raw.githubusercontent.com/elzup/vscode-jet-cursor/main/images/maai-cursor.mp4" muted="false"></video></div>
 
 ## Recommend Config
 
