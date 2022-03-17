@@ -5,7 +5,7 @@ Hilight realtive N line up and N line down.
 Enhance vertical moving of cursor.  
 Enhance command of vim's `{N}j` and `{N}k`.
 
-<div><video controls src="https://raw.githubusercontent.com/elzup/vscode-maai-cursor/main/images/maai-cursor-v2.mp4" muted="true" width="600"></video></div>
+<div><video controls src="https://user-images.githubusercontent.com/2284908/158838703-534ce903-d020-4101-b8ff-5d08382e08e1.mp4" muted="true" width="600"></video></div>
 
 ## Recommend Config
 
