@@ -56,7 +56,7 @@
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "publish": "yarn version && ./publish.sh"
+    "publish": "./publish.sh"
   },
   "devDependencies": {
     "@types/glob": "^7.1.4",
