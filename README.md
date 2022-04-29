@@ -24,10 +24,8 @@ vnoremap <C-k> 5k
 
 This extension contributes the following settings:
 
-**WIP**
-
 - `maaiCursor.distance`: Distance of marker.
-- `maaiCursor.mode`: Hilight pattern `point` or `line`.
+- `maaiCursor.mode`: Hilight pattern `point` or `line` or `para`.
 
 ```
   "maaiCursor.distance": 5
