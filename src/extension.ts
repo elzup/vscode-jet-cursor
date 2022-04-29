@@ -41,6 +41,8 @@ const getBorderColorDarkConfig = () =>
   getConfig().get<Color>('borderColorDark') || '#00000040'
 const getPointerColorConfig = () =>
   getConfig().get<Color>('pointerColor') || '#88888850'
+const getLinePositionInOutConfig = () =>
+  getConfig().get<'inside' | 'outside'>('linePositionInOut') || 'inside'
 
 const range = (n: number) => [...Array(n).keys()]
 
@@ -76,6 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
     if (!activeEditor) return
     const DISTNACE = getDistanceConfig()
     const MODE = getModeConfig()
+    const LINE_POS = getLinePositionInOutConfig()
 
     const { character, line } = activeEditor.selection.anchor
     const firstLine = 0
@@ -91,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     activeEditor.setDecorations(decos.pointDeco, nextPoints)
 
-    const isOutside = false
+    const isOutside = LINE_POS === 'outside'
     const [upDeco, dwDeco] = isOutside
       ? [decos.topLineDeco, decos.btmLineDeco]
       : [decos.btmLineDeco, decos.topLineDeco]

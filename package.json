@@ -60,6 +60,15 @@
           "type": "string",
           "description": "Border color in DarkMode",
           "default": "#ffffff40"
+        },
+        "maaiCursor.linePositionInOut": {
+          "type": "string",
+          "enum": [
+            "inside",
+            "outside"
+          ],
+          "description": "Hilight line inside of jump point",
+          "default": "inside"
         }
       }
     }
