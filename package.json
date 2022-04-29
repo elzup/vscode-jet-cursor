@@ -45,6 +45,21 @@
           ],
           "description": "Hilight mode",
           "default": "point"
+        },
+        "maaiCursor.pointerColor": {
+          "type": "string",
+          "description": "Poinetr color in DarkMode",
+          "default": "#88888850"
+        },
+        "maaiCursor.borderColorLight": {
+          "type": "string",
+          "description": "Border color in LightMode",
+          "default": "#00000040"
+        },
+        "maaiCursor.borderColorDark": {
+          "type": "string",
+          "description": "Border color in DarkMode",
+          "default": "#ffffff40"
         }
       }
     }
