@@ -44,7 +44,7 @@
             "para"
           ],
           "description": "Hilight mode",
-          "default": "point"
+          "default": "line"
         },
         "maaiCursor.pointerColor": {
           "type": "string",
@@ -68,7 +68,7 @@
             "outside"
           ],
           "description": "Hilight line inside of jump point",
-          "default": "inside"
+          "default": "outside"
         }
       }
     }

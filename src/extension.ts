@@ -33,7 +33,7 @@ const getConfig = () => vscode.workspace.getConfiguration('maaiCursor')
 const getDistanceConfig = () => getConfig().get<number>('distance') || 5
 
 type Color = string
-const getModeConfig = () => getConfig().get<MaaiMode>('mode') || 'point'
+const getModeConfig = () => getConfig().get<MaaiMode>('mode') || 'line'
 
 const getBorderColorLightConfig = () =>
   getConfig().get<Color>('borderColorLight') || '#ffffff40'
@@ -42,7 +42,7 @@ const getBorderColorDarkConfig = () =>
 const getPointerColorConfig = () =>
   getConfig().get<Color>('pointerColor') || '#88888850'
 const getLinePositionInOutConfig = () =>
-  getConfig().get<'inside' | 'outside'>('linePositionInOut') || 'inside'
+  getConfig().get<'inside' | 'outside'>('linePositionInOut') || 'outside'
 
 const range = (n: number) => [...Array(n).keys()]
 
