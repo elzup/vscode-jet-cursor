@@ -1,8 +1,10 @@
 import * as vscode from 'vscode'
 import { makeJumpLineDecorator, makeJumpPointDecorator } from './decorator'
+import { calcDraw } from './logic'
+import { Config, LinePos, MaaiMode, Pos } from './types'
 
-const colShadowRange = (line: number, char: number) =>
-  new vscode.Range(line, char, line, char + 1)
+const colShadowRange = ({ line, character }: Pos) =>
+  new vscode.Range(line, character, line, character + 1)
 const colLineShadowRange = (line: number) =>
   new vscode.Range(line, 0, line, 100)
 
@@ -27,30 +29,20 @@ function setupCommands(ctx: vscode.ExtensionContext) {
   return { decos }
 }
 
-type MaaiMode = 'point' | 'line' | 'para'
-
 const getConfig = () => vscode.workspace.getConfiguration('maaiCursor')
-const getDistanceConfig = () => getConfig().get<number>('distance') || 5
+const getDistanceConfig = () => getConfig().get<number>('distance') ?? 5
 
 type Color = string
 const getModeConfig = () => getConfig().get<MaaiMode>('mode') || 'line'
 
 const getBorderColorLightConfig = () =>
-  getConfig().get<Color>('borderColorLight') || '#ffffff40'
+  getConfig().get<Color>('borderColorLight') ?? '#ffffff40'
 const getBorderColorDarkConfig = () =>
-  getConfig().get<Color>('borderColorDark') || '#00000040'
+  getConfig().get<Color>('borderColorDark') ?? '#00000040'
 const getPointerColorConfig = () =>
-  getConfig().get<Color>('pointerColor') || '#88888850'
+  getConfig().get<Color>('pointerColor') ?? '#88888850'
 const getLinePositionInOutConfig = () =>
-  getConfig().get<'inside' | 'outside'>('linePositionInOut') || 'outside'
-
-const range = (n: number) => [...Array(n).keys()]
-
-const calcJetLines = (current: number, end: number, distance: number) => {
-  const offset = current % distance
-
-  return range(Math.floor(end / distance)).map((i) => i * distance + offset)
-}
+  getConfig().get<LinePos>('linePositionInOut') ?? 'outside'
 
 export function activate(context: vscode.ExtensionContext) {
   let activeEditor = vscode.window.activeTextEditor
@@ -76,42 +68,28 @@ export function activate(context: vscode.ExtensionContext) {
 
   function updateDecorations() {
     if (!activeEditor) return
-    const DISTNACE = getDistanceConfig()
-    const MODE = getModeConfig()
-    const LINE_POS = getLinePositionInOutConfig()
 
-    const { character, line } = activeEditor.selection.anchor
-    const firstLine = 0
     const lastLine = activeEditor.document.lineCount - 1
-    const notCurrentLine = (v: number) => v !== line
-    const upLine = Math.max(firstLine, line - DISTNACE)
-    const dwLine = Math.min(lastLine, line + DISTNACE)
-    const nextLines = [upLine, dwLine].filter(notCurrentLine)
+    const config: Config = {
+      distance: getDistanceConfig(),
+      mode: getModeConfig(),
+      linePos: getLinePositionInOutConfig(),
+    }
 
-    const allLines = calcJetLines(line, lastLine, DISTNACE)
-
-    const nextPoints = nextLines.map((line) => colShadowRange(line, character))
-
-    activeEditor.setDecorations(decos.pointDeco, nextPoints)
-
-    const isOutside = LINE_POS === 'outside'
+    const { anchor } = activeEditor.selection
+    const { nextPoints, upDecoLines, dwDecoLines } = calcDraw(
+      config,
+      anchor,
+      lastLine
+    )
+    const isOutside = config.linePos === 'outside'
     const [upDeco, dwDeco] = isOutside
       ? [decos.topLineDeco, decos.btmLineDeco]
       : [decos.btmLineDeco, decos.topLineDeco]
 
-    if (MODE === 'point') {
-    } else {
-      const lines = { line: nextLines, para: allLines }[MODE]
-
-      activeEditor.setDecorations(
-        upDeco,
-        lines.filter((l) => l < line).map(colLineShadowRange)
-      )
-      activeEditor.setDecorations(
-        dwDeco,
-        lines.filter((l) => l > line).map(colLineShadowRange)
-      )
-    }
+    activeEditor.setDecorations(decos.pointDeco, nextPoints.map(colShadowRange))
+    activeEditor.setDecorations(upDeco, upDecoLines.map(colLineShadowRange))
+    activeEditor.setDecorations(dwDeco, dwDecoLines.map(colLineShadowRange))
   }
   function triggerUpdateDecorations() {
     updateDecorations()
